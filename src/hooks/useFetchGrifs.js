@@ -1,27 +1,25 @@
-import React, { useEffect, useState } from 'react'
-import { getGifs } from '../components/helpers/getGifs'
+import { useEffect, useState } from 'react';
+import { getGifs } from '../components/helpers/getGifs';
 
-const useFetchGrifs = (category) => {
+const useFetchGrifs = category => {
+  const [images, setImages] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-    const [images, setImages] = useState([])
-    const [isLoading, setIsLoading] = useState(true)
+  const getImages = async () => {
+    const newImages = await getGifs(category);
+    setImages(newImages);
+    setIsLoading(false);
+  };
 
-  const getImages = async () =>{
-    const newImages = await getGifs(category)
-    setImages(newImages)
-    setIsLoading(false)
-  }
-
-  useEffect(()=>{
+  useEffect(() => {
     getImages();
-  },[ ])
-  
-  return{
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return {
     images,
-    isLoading
-  }
+    isLoading,
+  };
+};
 
-
-}
-
-export default useFetchGrifs
+export default useFetchGrifs;
